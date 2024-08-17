@@ -3,13 +3,20 @@ import { RouterOutlet } from '@angular/router';
 import { AppNavbar } from './navbar/navbar.component';
 import { HeaderComponent } from './header/header.component';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AppNavbar, HeaderComponent, FormsModule],
+  imports: [
+    RouterOutlet,
+    AppNavbar,
+    HeaderComponent,
+    FormsModule,
+    CommonModule,
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'this loaded dynamically';
@@ -18,7 +25,10 @@ export class AppComponent {
   isDisabled = false;
   isActive = true;
 
-  userName = 'John Doed';
+  userName = 'John Doe';
+  userRole = 'Admin';
+
+  users = ['John Doe', 'Jane Doe', 'Jim Doe'];
 
   onClick() {
     this.isActive = !this.isActive;
@@ -35,5 +45,13 @@ export class AppComponent {
 
   updateUsername(user: HTMLInputElement) {
     this.userName = user.value;
+  }
+
+  onAddUser() {
+    this.users.push(this.userName);
+  }
+
+  onRemoveUser(index: number) {
+    this.users.splice(index, 1);
   }
 }

@@ -3,6 +3,23 @@
 
 <h1>{{title}}</h1>
 
+<!-- Old way -->
+<h2 *ngIf="isActive; else message">{{userName}}</h2>
+<h2 *ngIf="!isActive">{{userName}} not logged in</h2>
+
+<!-- New way from Angular 17 -->
+@if (isActive) {
+  <h2>{{userName}}</h2>
+}
+
+@else {
+  <h2>{{userName}} not logged in</h2>
+}
+
+<ng-template #message>
+  <h3>Not logged in</h3>
+</ng-template>
+
 <img [src]="imgUrl" alt="Angular Logo">
 
 <button disabled="{{isDisabled}}">this button is disabled using string interpolation</button>
@@ -16,8 +33,41 @@
   (click)="onClick()"
 >Click Me</button>
 
-<input type="text" (keyup)="onInput($event)" (keyup.enter)="onEnter(user)" #user>
+<!-- <input type="text" (keyup)="onInput($event)" (keyup.enter)="onEnter(user)" #user> -->
 
-<input type="text" [value]="userName" #username (keyup.enter)="updateUsername(username)">
+<!-- <input type="text" [value]="userName" #username (keyup.enter)="updateUsername(username)"> -->
 
-<input type="text" [(ngModel)]="userName">
+<!-- <input type="text" [(ngModel)]="userName"> -->
+
+<h4 *ngIf="userRole == 'Admin'; else memberMessage">
+  Welcome Admin
+</h4>
+
+<ng-template #memberMessage>
+  <h4>Welcome Member</h4>
+</ng-template>
+
+
+<div class="users-block">
+  <h2>List of Users (total: {{users.length}})</h2>
+
+  <div class="users-block__add-user">
+    <input type="text" [(ngModel)]="userName">
+
+    <button (click)="onAddUser()">Add User</button>
+  </div>
+
+  <ol> 
+    @for (user of users; track user; let i = $index) {
+      <li>
+        <div [style.backgroundColor]="$even ? 'lightgrey' : 'grey'">
+          {{user}}
+          <button (click)="onRemoveUser(i)">Delete</button>
+        </div>
+      </li>
+    } @empty {
+      <li>No users found</li>
+    }
+  </ol>
+</div>
+
